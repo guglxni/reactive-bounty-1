@@ -43,6 +43,34 @@ npx hardhat run scripts/telegram_bot_3feed.ts --network sepolia
 
 ---
 
+## 📱 Bot Screenshots
+
+### All Prices (`/prices`)
+![Bot Prices](images/telegram-bot/bot-prices.jpg)
+*Live prices for ETH/USD, BTC/USD, and LINK/USD with update counts and status*
+
+### Single Feed Price (`/eth`)
+![Bot ETH Price](images/telegram-bot/bot-eth-price.jpg)
+*Detailed ETH/USD price with round ID, update count, and origin aggregator info*
+
+### System Status (`/status`)
+![Bot Status](images/telegram-bot/bot-status.jpg)
+*Full system status including networks, statistics, and per-feed updates*
+
+### Transaction Hashes (`/txs`)
+![Bot Transactions](images/telegram-bot/bot-txs.jpg)
+*Recent transaction hashes across all 3 chains with explorer links*
+
+### Cross-Chain Workflow (`/workflow`)
+![Bot Workflow](images/telegram-bot/bot-workflow.jpg)
+*Step-by-step cross-chain flow from origin to destination*
+
+### Contract Addresses (`/contracts`)
+![Bot Contracts](images/telegram-bot/bot-contracts.jpg)
+*All deployed contract addresses on Reactive, Sepolia, and Base Sepolia*
+
+---
+
 ## 📋 Available Commands
 
 ### Price Commands

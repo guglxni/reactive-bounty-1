@@ -55,26 +55,12 @@ npx hardhat run scripts/telegram_bot_3feed.ts --network sepolia
 | `/contracts` | All deployed addresses | RSC, Destination, Aggregators |
 | `/help` | List all commands | Full command reference |
 
-### Sample Bot Output
-```
-📊 CROSS-CHAIN ORACLE PRICES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+### Bot Screenshots
 
-💎 ETH/USD
-   Price: $3,041.16
-   Updates: 236 | Last: 18m ago | ✅ LIVE
-
-🪙 BTC/USD
-   Price: $91,441.14
-   Updates: 239 | Last: 2m ago | ✅ LIVE
-
-🔗 LINK/USD
-   Price: $13.49
-   Updates: 165 | Last: 9m ago | ✅ LIVE
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📈 Total Updates: 640 | 🔄 System: ACTIVE
-```
+| All Prices | Cross-Chain Workflow |
+|------------|---------------------|
+| ![Bot Prices](docs/images/telegram-bot/bot-prices.jpg) | ![Bot Workflow](docs/images/telegram-bot/bot-workflow.jpg) |
+| `/prices` - Live ETH, BTC, LINK prices | `/workflow` - Full cross-chain flow |
 
 ---
 

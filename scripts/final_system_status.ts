@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function main() {
-  const sepoliaProvider = new ethers.JsonRpcProvider('https://eth-sepolia.g.alchemy.com/v2/aejFWwWsobhAYOLqU0u0t');
+  const sepoliaProvider = new ethers.JsonRpcProvider('https://rpc.ankr.com/eth_sepolia');
   const baseSepoliaProvider = new ethers.JsonRpcProvider('https://sepolia.base.org');
   const reactiveProvider = new ethers.JsonRpcProvider('https://lasna-rpc.rnk.dev/');
   

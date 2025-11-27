@@ -7,7 +7,7 @@ async function main() {
   
   const baseSepoliaProvider = new ethers.JsonRpcProvider('https://sepolia.base.org');
   const reactiveProvider = new ethers.JsonRpcProvider('https://lasna-rpc.rnk.dev/');
-  const sepoliaProvider = new ethers.JsonRpcProvider('https://eth-sepolia.g.alchemy.com/v2/aejFWwWsobhAYOLqU0u0t');
+  const sepoliaProvider = new ethers.JsonRpcProvider('https://rpc.ankr.com/eth_sepolia');
   const wallet = new ethers.Wallet(pk, reactiveProvider);
   
   const RSC = '0x70c6c95D4F75eE019Fa2c163519263a11AaC70f5';

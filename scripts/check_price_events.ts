@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 
 async function main() {
-  const sepoliaProvider = new ethers.JsonRpcProvider('https://eth-sepolia.g.alchemy.com/v2/aejFWwWsobhAYOLqU0u0t');
+  const sepoliaProvider = new ethers.JsonRpcProvider('https://rpc.ankr.com/eth_sepolia');
   
   const DEST = '0x889c32f46E273fBd0d5B1806F3f1286010cD73B3';
   const CALLBACK_PROXY = '0xc9f36411C9897e7F959D99ffca2a0Ba7ee0D7bDA';

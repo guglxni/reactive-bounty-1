@@ -1,7 +1,11 @@
-// Contract Configuration - Load from environment variables for security
-// Never hardcode sensitive URLs in the frontend
+// Contract Configuration
+// Uses environment variables for sensitive data, with fallbacks for development
+
 const getEnvVar = (key: string, fallback: string): string => {
-  return import.meta.env[key] || fallback;
+  if (typeof import.meta !== 'undefined' && import.meta.env) {
+    return (import.meta.env as Record<string, string>)[key] || fallback;
+  }
+  return fallback;
 };
 
 export const CONFIG = {
@@ -12,38 +16,38 @@ export const CONFIG = {
     reactive: 5318007,
   },
   
-  // RPC Endpoints - Load from environment variables
+  // RPC Endpoints - Use environment variables for production
   rpc: {
-    sepolia: getEnvVar('VITE_SEPOLIA_RPC_URL', 'https://eth-sepolia.g.alchemy.com/v2/aejFWwWsobhAYOLqU0u0t'),
+    sepolia: getEnvVar('VITE_SEPOLIA_RPC_URL', 'https://rpc.ankr.com/eth_sepolia'),
     baseSepolia: getEnvVar('VITE_BASE_SEPOLIA_RPC_URL', 'https://sepolia.base.org'),
     reactive: getEnvVar('VITE_REACTIVE_RPC_URL', 'https://lasna-rpc.rnk.dev/'),
   },
   
-  // Contract Addresses - Load from environment variables
+  // Contract Addresses
   contracts: {
-    destination: getEnvVar('VITE_DESTINATION_CONTRACT', '0x889c32f46E273fBd0d5B1806F3f1286010cD73B3'),
-    rsc: getEnvVar('VITE_RSC_CONTRACT', '0x70c6c95D4F75eE019Fa2c163519263a11AaC70f5'),
-    callbackProxy: getEnvVar('VITE_CALLBACK_PROXY', '0xc9f36411C9897e7F959D99ffca2a0Ba7ee0D7bDA'),
+    destination: '0x889c32f46E273fBd0d5B1806F3f1286010cD73B3',
+    rsc: '0x70c6c95D4F75eE019Fa2c163519263a11AaC70f5',
+    callbackProxy: '0xc9f36411C9897e7F959D99ffca2a0Ba7ee0D7bDA',
   },
   
-  // Feed Aggregators (Base Sepolia) - Load from environment variables
+  // Feed Aggregators (Base Sepolia)
   feeds: {
     ETH: {
-      address: getEnvVar('VITE_ETH_USD_FEED', '0xa24A68DD788e1D7eb4CA517765CFb2b7e217e7a3'),
+      address: '0xa24A68DD788e1D7eb4CA517765CFb2b7e217e7a3',
       symbol: 'ETH/USD',
       decimals: 8,
       icon: '⟠',
       color: '#627eea',
     },
     BTC: {
-      address: getEnvVar('VITE_BTC_USD_FEED', '0x961AD289351459A45fC90884eF3AB0278ea95DDE'),
+      address: '0x961AD289351459A45fC90884eF3AB0278ea95DDE',
       symbol: 'BTC/USD',
       decimals: 8,
       icon: '₿',
       color: '#f7931a',
     },
     LINK: {
-      address: getEnvVar('VITE_LINK_USD_FEED', '0xAc6DB6d5538Cd07f58afee9dA736ce192119017B'),
+      address: '0xAc6DB6d5538Cd07f58afee9dA736ce192119017B',
       symbol: 'LINK/USD',
       decimals: 8,
       icon: '⬡',

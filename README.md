@@ -10,6 +10,24 @@ A production-grade, autonomous cross-chain oracle that mirrors **multiple Chainl
 
 ---
 
+## 🔒 Security
+
+See [SECURITY.md](./SECURITY.md) for comprehensive security documentation.
+
+**Quick Setup:**
+```bash
+# 1. Initialize with security best practices
+bash setup-security.sh
+
+# 2. Add your keys to .env (never commit)
+echo "PRIVATE_KEY=your-key" >> .env
+
+# 3. Verify no secrets in git
+git ls-files --exclude-standard | xargs grep -l "PRIVATE_KEY\|BOT_TOKEN"
+```
+
+---
+
 ## 🎯 Deployed Contracts (Production - Multi-Feed)
 
 | Component | Network | Chain ID | Address |

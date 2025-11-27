@@ -47,7 +47,7 @@ describe("ChainlinkFeedMirrorRC", function () {
             ORIGIN_FEED,         // _originFeed
             destProxy,           // _destinationProxy
             ORIGIN_DECIMALS      // _originDecimals
-        );
+        ) as unknown as ChainlinkFeedMirrorRC;
     });
 
     describe("Deployment", function () {

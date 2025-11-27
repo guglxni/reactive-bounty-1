@@ -88,7 +88,7 @@ describe("MultiFeedDestinationV2", function () {
         
         it("Should only allow owner to register feeds", async function () {
             await expect(
-                destination.connect(other).registerFeed(ETH_USD_FEED, DECIMALS, "ETH / USD")
+                (destination.connect(other) as typeof destination).registerFeed(ETH_USD_FEED, DECIMALS, "ETH / USD")
             ).to.be.revertedWith("Not authorized: only owner");
         });
         
@@ -132,7 +132,7 @@ describe("MultiFeedDestinationV2", function () {
         // So we use ownerAddress as the sender in test calls
         
         it("Should process ETH/USD update", async function () {
-            await destination.connect(callbackProxy).updateFromReactive(
+            await (destination.connect(callbackProxy) as typeof destination).updateFromReactive(
                 ownerAddress, // rvm_id set to deployer
                 ETH_USD_FEED,
                 DECIMALS,
@@ -152,7 +152,7 @@ describe("MultiFeedDestinationV2", function () {
             const btcRoundId = 54321n;
             const btcAnswer = 8700000000000n; // $87,000 with 8 decimals
             
-            await destination.connect(callbackProxy).updateFromReactive(
+            await (destination.connect(callbackProxy) as typeof destination).updateFromReactive(
                 ownerAddress,
                 ETH_USD_FEED,
                 DECIMALS,
@@ -164,7 +164,7 @@ describe("MultiFeedDestinationV2", function () {
                 roundId
             );
             
-            await destination.connect(callbackProxy).updateFromReactive(
+            await (destination.connect(callbackProxy) as typeof destination).updateFromReactive(
                 ownerAddress,
                 BTC_USD_FEED,
                 DECIMALS,
@@ -185,7 +185,7 @@ describe("MultiFeedDestinationV2", function () {
         
         it("Should auto-register unknown feeds from authorized source", async function () {
             // USDC feed not registered, but should auto-register
-            await destination.connect(callbackProxy).updateFromReactive(
+            await (destination.connect(callbackProxy) as typeof destination).updateFromReactive(
                 ownerAddress, // rvm_id is deployer
                 USDC_USD_FEED,
                 DECIMALS,
@@ -204,7 +204,7 @@ describe("MultiFeedDestinationV2", function () {
         
         it("Should emit events for updates", async function () {
             await expect(
-                destination.connect(callbackProxy).updateFromReactive(
+                (destination.connect(callbackProxy) as typeof destination).updateFromReactive(
                     ownerAddress, // rvm_id is deployer
                     ETH_USD_FEED,
                     DECIMALS,
@@ -224,7 +224,7 @@ describe("MultiFeedDestinationV2", function () {
         
         it("Should reject unauthorized sender", async function () {
             await expect(
-                destination.connect(other).updateFromReactive(
+                (destination.connect(other) as typeof destination).updateFromReactive(
                     ownerAddress, // rvm_id is deployer
                     ETH_USD_FEED,
                     DECIMALS,
@@ -241,7 +241,7 @@ describe("MultiFeedDestinationV2", function () {
         it("Should reject wrong RVM ID (unauthorized sender)", async function () {
             const otherAddress = await other.getAddress();
             await expect(
-                destination.connect(callbackProxy).updateFromReactive(
+                (destination.connect(callbackProxy) as typeof destination).updateFromReactive(
                     otherAddress, // Wrong RVM ID - will fail authorizedReactiveContract check
                     ETH_USD_FEED,
                     DECIMALS,
@@ -257,7 +257,7 @@ describe("MultiFeedDestinationV2", function () {
         
         it("Should reject wrong message version", async function () {
             await expect(
-                destination.connect(callbackProxy).updateFromReactive(
+                (destination.connect(callbackProxy) as typeof destination).updateFromReactive(
                     ownerAddress, // rvm_id is deployer
                     ETH_USD_FEED,
                     DECIMALS,
@@ -273,7 +273,7 @@ describe("MultiFeedDestinationV2", function () {
         
         it("Should reject decimals mismatch", async function () {
             await expect(
-                destination.connect(callbackProxy).updateFromReactive(
+                (destination.connect(callbackProxy) as typeof destination).updateFromReactive(
                     ownerAddress, // rvm_id is deployer
                     ETH_USD_FEED,
                     6, // Wrong decimals
@@ -289,7 +289,7 @@ describe("MultiFeedDestinationV2", function () {
         
         it("Should reject negative price", async function () {
             await expect(
-                destination.connect(callbackProxy).updateFromReactive(
+                (destination.connect(callbackProxy) as typeof destination).updateFromReactive(
                     ownerAddress, // rvm_id is deployer
                     ETH_USD_FEED,
                     DECIMALS,
@@ -305,7 +305,7 @@ describe("MultiFeedDestinationV2", function () {
         
         it("Should reject stale roundId", async function () {
             // First update
-            await destination.connect(callbackProxy).updateFromReactive(
+            await (destination.connect(callbackProxy) as typeof destination).updateFromReactive(
                 ownerAddress, // rvm_id is deployer
                 ETH_USD_FEED,
                 DECIMALS,
@@ -319,7 +319,7 @@ describe("MultiFeedDestinationV2", function () {
             
             // Try to send older round
             await expect(
-                destination.connect(callbackProxy).updateFromReactive(
+                (destination.connect(callbackProxy) as typeof destination).updateFromReactive(
                     ownerAddress, // rvm_id is deployer
                     ETH_USD_FEED,
                     DECIMALS,
@@ -345,15 +345,15 @@ describe("MultiFeedDestinationV2", function () {
             );
             
             // Add some price data (ownerAddress is rvm_id set in constructor)
-            await destination.connect(callbackProxy).updateFromReactive(
+            await (destination.connect(callbackProxy) as typeof destination).updateFromReactive(
                 ownerAddress, ETH_USD_FEED, DECIMALS, MESSAGE_VERSION,
                 1n, 290000000000n, updatedAt, updatedAt, 1n
             );
-            await destination.connect(callbackProxy).updateFromReactive(
+            await (destination.connect(callbackProxy) as typeof destination).updateFromReactive(
                 ownerAddress, BTC_USD_FEED, DECIMALS, MESSAGE_VERSION,
                 1n, 8700000000000n, updatedAt, updatedAt, 1n
             );
-            await destination.connect(callbackProxy).updateFromReactive(
+            await (destination.connect(callbackProxy) as typeof destination).updateFromReactive(
                 ownerAddress, LINK_USD_FEED, DECIMALS, MESSAGE_VERSION,
                 1n, 1300000000n, updatedAt, updatedAt, 1n
             );
@@ -393,7 +393,7 @@ describe("MultiFeedDestinationV2", function () {
         it("Should store historical rounds", async function () {
             // Add multiple rounds
             for (let i = 1; i <= 5; i++) {
-                await destination.connect(callbackProxy).updateFromReactive(
+                await (destination.connect(callbackProxy) as typeof destination).updateFromReactive(
                     ownerAddress, // rvm_id is deployer
                     ETH_USD_FEED,
                     DECIMALS,
@@ -412,7 +412,7 @@ describe("MultiFeedDestinationV2", function () {
         });
         
         it("Should reject query for non-existent round", async function () {
-            await destination.connect(callbackProxy).updateFromReactive(
+            await (destination.connect(callbackProxy) as typeof destination).updateFromReactive(
                 ownerAddress, ETH_USD_FEED, DECIMALS, MESSAGE_VERSION,
                 1n, 290000000000n, updatedAt, updatedAt, 1n
             );
@@ -435,11 +435,11 @@ describe("MultiFeedDestinationV2", function () {
         });
         
         it("Should track global update count", async function () {
-            await destination.connect(callbackProxy).updateFromReactive(
+            await (destination.connect(callbackProxy) as typeof destination).updateFromReactive(
                 ownerAddress, ETH_USD_FEED, DECIMALS, MESSAGE_VERSION,
                 1n, 290000000000n, updatedAt, updatedAt, 1n
             );
-            await destination.connect(callbackProxy).updateFromReactive(
+            await (destination.connect(callbackProxy) as typeof destination).updateFromReactive(
                 ownerAddress, BTC_USD_FEED, DECIMALS, MESSAGE_VERSION,
                 1n, 8700000000000n, updatedAt, updatedAt, 1n
             );

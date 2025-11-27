@@ -36,7 +36,7 @@ describe("DestinationFeedProxy", function () {
             DECIMALS,                // _decimals
             DESCRIPTION,             // _description
             ORIGIN_FEED              // _expectedOriginFeed
-        );
+        ) as unknown as DestinationFeedProxy;
     });
 
     describe("Deployment", function () {

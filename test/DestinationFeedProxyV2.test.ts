@@ -36,7 +36,7 @@ describe("DestinationFeedProxyV2", function () {
             DECIMALS,
             DESCRIPTION,
             EXPECTED_ORIGIN_FEED
-        );
+        ) as unknown as DestinationFeedProxyV2;
         await proxy.waitForDeployment();
         
         // AbstractCallback sets rvm_id = msg.sender (owner) in constructor

@@ -92,13 +92,23 @@ contract MultiFeedDestinationV2 is AbstractCallback {
     /**
      * @notice Constructor
      * @param _callback_sender The Callback Proxy address on this chain
+     * @param _rvm_id The ReactVM ID (deployer address) that will send callbacks
      */
-    constructor(address _callback_sender) AbstractCallback(_callback_sender) payable {
+    constructor(address _callback_sender, address _rvm_id) AbstractCallback(_callback_sender) payable {
         owner = msg.sender;
-        // Override rvm_id to address(0) to allow any RVM to call
-        // We use authorizedReactiveContract for access control instead
-        rvm_id = address(0);
+        // Set rvm_id to the deployer's address (ReactVM ID)
+        // Reactive Network replaces the first callback argument with this address
+        rvm_id = _rvm_id;
         emit OwnershipTransferred(address(0), msg.sender);
+    }
+    
+    /**
+     * @notice Update the authorized RVM ID (for migration or redeployment)
+     * @param _newRvmId The new ReactVM ID
+     */
+    function setRvmId(address _newRvmId) external onlyOwner {
+        require(_newRvmId != address(0), "Invalid RVM ID");
+        rvm_id = _newRvmId;
     }
 
     // ============ Receive ETH ============

@@ -118,7 +118,7 @@ describe("MultiFeedMirrorRCv2", function () {
         
         it("Should only allow owner to add feeds", async function () {
             await expect(
-                rsc.connect(other).addFeed(USDC_USD_FEED, DECIMALS, "USDC/USD")
+                (rsc.connect(other) as typeof rsc).addFeed(USDC_USD_FEED, DECIMALS, "USDC/USD")
             ).to.be.reverted;
         });
         

@@ -20,6 +20,7 @@
  */
 
 import { ethers } from "hardhat";
+// @ts-ignore - node-fetch types not installed
 import fetch from "node-fetch";
 
 // ═══════════════════════════════════════════════════════════════

@@ -51,6 +51,25 @@ npx ts-node scripts/telegram_bot_3feed.ts
 
 ---
 
+## 🖥️ Live Dashboard (Frontend)
+
+A real-time web dashboard for monitoring the oracle system:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open http://localhost:5173 to view:
+- **Live Price Feeds**: Origin vs mirrored prices with deviation tracking
+- **Cross-Chain Workflow**: Visual transaction flow with explorer links
+- **Bounty Checklist**: All requirements verified ✓
+- **Contract Addresses**: Quick copy and explorer links
+- **System Stats**: Total updates, RSC status, test count
+
+---
+
 ## 🔄 How It Works (Cross-Chain Workflow)
 
 ### Step 1: Origin Event (Base Sepolia)

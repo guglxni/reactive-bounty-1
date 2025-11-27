@@ -48,7 +48,7 @@ First thing I do is figure out which feed triggered this. Could be ETH, could be
 
 Then I check for duplicates. Every feed tracks its last processed round ID. If this round is the same or older than what we've already seen? Skip it. No point in sending duplicate data cross-chain.
 
-If it's a new round, I build the callback payload. This includes everything the bounty spec asked for — the feed identifier, which is just the origin aggregator address, the decimals, the message version for future upgrades, and all the round data like price, timestamps, and round IDs.
+If it's a new round, I build the callback payload. This includes everything the bounty spec asked for — the feed identifier, which is just the origin aggregator address, the decimals, a domain separator and message version for future upgrades and replay protection, and all the round data like price, timestamps, and round IDs.
 
 Then I emit this Callback event, and Reactive Network takes it from there. It handles all the cross-chain delivery. I don't have to think about bridges or relayers or any of that.
 
@@ -66,17 +66,17 @@ Once all that passes, we store the data and emit events. Clean and secure.
 
 *[Show: Block explorers with transactions]*
 
-Okay, let's look at some real transactions. The bounty specifically asks for transaction hashes at every step, so here they are.
+Okay, let's look at some live transactions — not simulations, these are real cross-chain updates happening on mainnet testnets. The bounty specifically asks for transaction hashes at every step, so here they are.
 
-Starting with the origin chain — Base Sepolia. This transaction right here is a Chainlink AnswerUpdated event. You can verify it on BaseScan. This is what triggers my RSC.
+Starting with the origin chain — Base Sepolia. This transaction is a Chainlink `Transmit` call on the ETH/USD aggregator from November 25th, 2025. You can see the AnswerUpdated event right there in the logs. That's what triggers my RSC.
 
 *[Show: ReactScan]*
 
-Now over on the Reactive Network. These are my RSC transactions on ReactScan. You can see the contract processing events and emitting callbacks. This is the autonomous part — nobody triggered these manually.
+Now over on the Reactive Network. This is my RSC transaction on ReactScan — same date. You can see the contract's `react()` function firing and emitting a Callback event. This is the autonomous part — the ReactVM detected the Chainlink event and invoked my RSC automatically. Nobody triggered this manually.
 
 *[Show: Etherscan Sepolia]*
 
-And finally, the destination on Sepolia. These are the callback deliveries. Each one updates a price feed. You can see the FeedUpdated events in the logs.
+And finally, the destination on Sepolia — November 25th, 2025 at 9:43 PM UTC. This is the callback delivery with the FeedUpdated event in the logs. The price data successfully crossed from Base to Sepolia through Reactive.
 
 The system has processed over 618 cross-chain updates so far. That's 228 ETH updates, 231 BTC updates, and 159 LINK updates. Production-grade reliability.
 
@@ -112,7 +112,7 @@ For testing, I wrote 199 unit tests covering core logic, edge cases, and securit
 
 So let me wrap up with why this submission stands out.
 
-First, I hit every requirement on the bounty checklist. Reactive contracts deployed — check. Destination contracts — check. Deploy scripts and documentation — check. All addresses documented — check. Transaction hashes for every step — check. Feed identifier, decimals, domain separator in the payload — check, check, check. AggregatorV3Interface compatibility — absolutely.
+First, I hit every requirement on the bounty checklist. Reactive contracts deployed on Lasna testnet — check. Destination contracts on Ethereum Sepolia — check. Deploy scripts and documentation — check. All addresses documented — check. Transaction hashes for every step, origin, reactive, and destination — check. Feed identifier, decimals, domain separator, and version in the payload — check, check, check. AggregatorV3Interface compatibility so any DeFi app can read the prices — absolutely.
 
 But I also went beyond the spec. Multi-feed support means one RSC handles three different price feeds efficiently. The Telegram bot adds real-time monitoring. 199 tests prove the code is solid. And 618-plus live updates show this thing actually works in production.
 
@@ -157,9 +157,12 @@ Keep these tabs ready before recording:
 1. **GitHub:** https://github.com/guglxni/reactive-bounty-1
 2. **RSC on ReactScan:** https://reactscan.net/address/0x70c6c95D4F75eE019Fa2c163519263a11AaC70f5
 3. **Destination on Etherscan:** https://sepolia.etherscan.io/address/0x889c32f46E273fBd0d5B1806F3f1286010cD73B3
-4. **Sample Origin Tx:** https://sepolia.basescan.org/tx/0x205f180a3479e3a48b8de09e33fb0a171915add491d8406efa96c922c2f233e7
-5. **Sample Reactive Tx:** https://reactscan.net/tx/0x45c0649500f14746e151e32cbe0576ffdd122d24493b4237fcaf1495affa7f1a
-6. **Sample Destination Tx:** https://sepolia.etherscan.io/tx/0x9c577f914488f66795323b89d01f4c6c5bcc65922d3c85c16c98acf7a584bca2
+4. **Live Example — Origin Tx:** https://sepolia.basescan.org/tx/0x205f180a3479e3a48b8de09e33fb0a171915add491d8406efa96c922c2f233e7  
+   *(Proof: Chainlink `Transmit` call on ETH/USD aggregator — Nov-25-2025 05:11:52 PM UTC)*
+5. **Live Example — Reactive Tx:** https://reactscan.net/tx/0x45c0649500f14746e151e32cbe0576ffdd122d24493b4237fcaf1495affa7f1a  
+   *(Proof: RSC `react()` triggered, emits Callback event — Nov-25-2025)*
+6. **Live Example — Destination Tx:** https://sepolia.etherscan.io/tx/0x9c577f914488f66795323b89d01f4c6c5bcc65922d3c85c16c98acf7a584bca2  
+   *(Proof: Callback delivery with FeedUpdated event — Nov-25-2025 09:43:24 PM UTC)*
 
 ---
 

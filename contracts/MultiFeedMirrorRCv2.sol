@@ -284,6 +284,15 @@ contract MultiFeedMirrorRCv2 is IReactive, AbstractPausableReactive {
         
         emit FeedRemoved(aggregator);
     }
+    
+    /**
+     * @notice Update destination proxy address (owner only)
+     * @dev Use when migrating to a new destination contract
+     */
+    function setDestinationProxy(address _newDestination) external onlyOwner {
+        require(_newDestination != address(0), "Invalid destination");
+        destinationProxy = _newDestination;
+    }
 
     // ============ Manual Operations ============
     

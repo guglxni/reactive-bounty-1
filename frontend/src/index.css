@@ -1,0 +1,201 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   REACTIVE ORACLE DASHBOARD
+   Aesthetic: Brutalist Data Terminal / Analog Synth Inspired
+   Typography: IBM Plex Mono + Playfair Display (unconventional pairing)
+   Colors: Warm amber on deep charcoal with electric accents
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ─── Brutalist Palette ─── */
+  --void: #0d0d0d;
+  --soot: #141414;
+  --charcoal: #1c1c1c;
+  --graphite: #2a2a2a;
+  --smoke: #404040;
+  --ash: #666666;
+  
+  /* ─── Warm Signal Colors (Analog VU Meter Inspired) ─── */
+  --ember: #ff6b35;
+  --amber: #ffc107;
+  --gold: #e5a00d;
+  --cream: #f4f0e8;
+  --bone: #d4d0c8;
+  
+  /* ─── Electric Accents ─── */
+  --electric: #00e5ff;
+  --mint: #00ffa3;
+  --coral: #ff5e7d;
+  --violet: #a855f7;
+  
+  /* ─── Status Signals ─── */
+  --live: #00ff88;
+  --stale: #ff4444;
+  --warn: #ffaa00;
+  --muted: #555555;
+  
+  /* ─── Typography ─── */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', 'Fira Code', monospace;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  
+  /* ─── Spacing (Golden Ratio Based) ─── */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 13px;
+  --space-lg: 21px;
+  --space-xl: 34px;
+  --space-2xl: 55px;
+  
+  /* ─── Radii ─── */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  
+  /* Legacy variable mappings for backward compatibility */
+  --neon-cyan: var(--electric);
+  --neon-green: var(--mint);
+  --neon-blue: #00aaff;
+  --neon-purple: var(--violet);
+  --signal-positive: var(--live);
+  --signal-negative: var(--stale);
+  --signal-warning: var(--warn);
+  --text-primary: var(--cream);
+  --text-secondary: var(--bone);
+  --text-tertiary: var(--ash);
+  --abyss: var(--soot);
+  --slate: var(--charcoal);
+  --carbon: var(--graphite);
+  --steel: var(--smoke);
+  --glow-cyan: 0 0 20px rgba(0, 229, 255, 0.2);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BASE RESET & GLOBAL STYLES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--void);
+  color: var(--bone);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Textured Background ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255,255,255,0.008) 2px,
+      rgba(255,255,255,0.008) 4px
+    );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* ─── Subtle Noise Overlay ─── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.015;
+  pointer-events: none;
+  z-index: 9997;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCROLLBAR STYLING
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--soot);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--smoke);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ember);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SELECTION STYLING
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+::selection {
+  background: var(--ember);
+  color: var(--void);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   UTILITY CLASSES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.text-glow {
+  text-shadow: 0 0 10px var(--ember);
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─── Loading Pulse ─── */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.loading {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* ─── Animation Utilities ─── */
+@keyframes blink {
+  50% { opacity: 0.3; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-number {
+  animation: fadeIn 0.5s ease-out forwards;
+}

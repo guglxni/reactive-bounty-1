@@ -88,12 +88,38 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:5173 to view:
+Open http://localhost:3001 to view:
 - **Live Price Feeds**: Origin vs mirrored prices with deviation tracking
 - **Cross-Chain Workflow**: Visual transaction flow with explorer links
-- **Bounty Checklist**: All requirements verified ✓
-- **Contract Addresses**: Quick copy and explorer links
-- **System Stats**: Total updates, RSC status, test count
+- **Transaction Explorer**: All cross-chain transactions with status
+- **Interactive Terminal**: Query prices and system status
+- **System Stats**: Total updates, RSC status, network latencies
+
+### Dashboard Screenshots
+
+#### System Dashboard
+![Dashboard](docs/images/dashboard.png)
+*Main dashboard showing 647 total updates, 3 active feeds, network latencies, and deployed contracts*
+
+#### Live Feed Monitor
+![Live Monitor](docs/images/live-monitor.png)
+*Real-time price monitoring with ETH/USD $3,031.88, BTC/USD $91,331.95, LINK/USD $13.46*
+
+#### Cross-Chain Workflow
+![Workflow](docs/images/workflow.png)
+*Visual representation of the 3-step cross-chain flow: Base Sepolia → Reactive Lasna → Ethereum Sepolia*
+
+#### Transaction Explorer
+![Transactions](docs/images/transactions.png)
+*Live transaction feed showing origin events, reactive processing, and destination callbacks*
+
+#### Interactive Terminal
+![Terminal](docs/images/terminal.png)
+*Built-in terminal with commands: price, feeds, status, txs, workflow, contracts*
+
+#### Price Comparison
+![Terminal Compare](docs/images/terminal-compare.png)
+*Origin vs Mirrored price comparison showing 0.0000% deviation - perfect sync!*
 
 ---
 

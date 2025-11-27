@@ -6,7 +6,7 @@ A production-grade, autonomous cross-chain oracle that mirrors **multiple Chainl
 
 **Deadline:** November 30, 2025  
 **Status:** ✅ **FULLY OPERATIONAL**  
-**Total Updates:** 149+ cross-chain callbacks delivered
+**Total Updates:** 640+ cross-chain callbacks delivered
 
 ---
 
@@ -30,24 +30,51 @@ A production-grade, autonomous cross-chain oracle that mirrors **multiple Chainl
 
 ## 🤖 Telegram Bot (Live Monitoring)
 
-Monitor the oracle in real-time via Telegram bot:
+Monitor the oracle in real-time via Telegram bot. **[📖 Full Documentation](docs/TELEGRAM_BOT.md)**
 
+### Quick Start
 ```bash
+# Set environment variables
+export TELEGRAM_BOT_TOKEN=your_token_from_botfather
+export TELEGRAM_CHAT_ID=your_chat_id
+
 # Start the bot
-npx ts-node scripts/telegram_bot_3feed.ts
+npx hardhat run scripts/telegram_bot_3feed.ts --network sepolia
 ```
 
-**Available Commands:**
-| Command | Description |
-|---------|-------------|
-| `/eth`, `/btc`, `/link` | Get individual feed prices |
-| `/prices`, `/price` | Get all feed prices |
-| `/feeds`, `/status` | System status overview |
-| `/txs` | Recent transaction hashes (all 3 chains) |
-| `/workflow` | Complete cross-chain workflow explanation |
-| `/contracts` | Deployed contract addresses |
-| `/history` | Historical update statistics |
-| `/help` | List all commands |
+### Available Commands
+| Command | Description | Sample Response |
+|---------|-------------|-----------------|
+| `/prices` | Get all 3 feed prices | ETH: $3,041 • BTC: $91,441 • LINK: $13.49 |
+| `/eth` | ETH/USD price + stats | Price, round ID, update count, age |
+| `/btc` | BTC/USD price + stats | Price, round ID, update count, age |
+| `/link` | LINK/USD price + stats | Price, round ID, update count, age |
+| `/status` | Full system status | Networks, balances, all feed stats |
+| `/txs` | Recent transaction hashes | Origin, Reactive, Destination tx links |
+| `/workflow` | Cross-chain flow diagram | Step-by-step with contract addresses |
+| `/contracts` | All deployed addresses | RSC, Destination, Aggregators |
+| `/help` | List all commands | Full command reference |
+
+### Sample Bot Output
+```
+📊 CROSS-CHAIN ORACLE PRICES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💎 ETH/USD
+   Price: $3,041.16
+   Updates: 236 | Last: 18m ago | ✅ LIVE
+
+🪙 BTC/USD
+   Price: $91,441.14
+   Updates: 239 | Last: 2m ago | ✅ LIVE
+
+🔗 LINK/USD
+   Price: $13.49
+   Updates: 165 | Last: 9m ago | ✅ LIVE
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📈 Total Updates: 640 | 🔄 System: ACTIVE
+```
 
 ---
 
@@ -287,14 +314,15 @@ docs/
 ## 📊 Test Results
 
 ```
-149 passing (1.8s)
+199 passing (2.1s)
 
 Test Suites:
-  ✓ MultiFeedDestinationV2 (multi-feed tests)
-  ✓ MultiFeedMirrorRCv2 (multi-feed RSC tests)
-  ✓ DestinationFeedProxy (single-feed tests)
-  ✓ ChainlinkFeedMirrorRC (single-feed RSC tests)
-  ✓ ChainlinkFeedMirrorCronRC (cron tests)
+  ✓ MultiFeedDestinationV2 (20 tests) - multi-feed destination
+  ✓ MultiFeedMirrorRCv2 (1 test) - multi-feed RSC
+  ✓ DestinationFeedProxy (comprehensive) - single-feed destination
+  ✓ DestinationFeedProxyV2 (comprehensive) - enhanced destination
+  ✓ ChainlinkFeedMirrorRC (comprehensive) - single-feed RSC
+  ✓ ChainlinkFeedMirrorCronRC (comprehensive) - cron-enabled RSC
 ```
 
 ---

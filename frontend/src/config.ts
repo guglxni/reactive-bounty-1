@@ -18,7 +18,7 @@ export const CONFIG = {
   
   // RPC Endpoints - Use environment variables for production
   rpc: {
-    sepolia: getEnvVar('VITE_SEPOLIA_RPC_URL', 'https://rpc.ankr.com/eth_sepolia'),
+    sepolia: getEnvVar('VITE_SEPOLIA_RPC_URL', 'https://eth-sepolia.g.alchemy.com/v2/aejFWwWsobhAYOLqU0u0t'),
     baseSepolia: getEnvVar('VITE_BASE_SEPOLIA_RPC_URL', 'https://sepolia.base.org'),
     reactive: getEnvVar('VITE_REACTIVE_RPC_URL', 'https://lasna-rpc.rnk.dev/'),
   },

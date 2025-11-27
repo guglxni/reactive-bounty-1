@@ -28,3 +28,6 @@ npm-debug.log*
 
 # Archive (old scripts)
 scripts/archive/
+
+# Private files
+VIDEO_SCRIPT.md

@@ -92,7 +92,7 @@ Open http://localhost:3001 to view:
 - **Live Price Feeds**: Origin vs mirrored prices with deviation tracking
 - **Cross-Chain Workflow**: Visual transaction flow with explorer links
 - **Transaction Explorer**: All cross-chain transactions with status
-- **Interactive Terminal**: Query prices and system status
+- **Interactive Terminal**: Query prices and system status **[📖 Full Documentation](docs/INTERACTIVE_TERMINAL.md)**
 - **System Stats**: Total updates, RSC status, network latencies
 
 ### Dashboard Screenshots
@@ -115,7 +115,7 @@ Open http://localhost:3001 to view:
 
 #### Interactive Terminal
 ![Terminal](docs/images/terminal.png)
-*Built-in terminal with commands: price, feeds, status, txs, workflow, contracts*
+*Built-in terminal with commands: price, feeds, status, txs, workflow, contracts. **[📖 Full Documentation](docs/INTERACTIVE_TERMINAL.md)***
 
 #### Price Comparison
 ![Terminal Compare](docs/images/terminal-compare.png)
@@ -300,6 +300,8 @@ test/
 docs/
 ├── design.md                      # Architecture documentation
 ├── security-architecture.md       # Security analysis
+├── TELEGRAM_BOT.md                # Telegram bot documentation
+├── INTERACTIVE_TERMINAL.md        # Interactive terminal documentation
 └── ...                            # Additional documentation
 ```
 

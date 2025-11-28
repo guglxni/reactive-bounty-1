@@ -6,7 +6,15 @@ A production-grade, autonomous cross-chain oracle that mirrors **multiple Chainl
 
 **Deadline:** November 30, 2025  
 **Status:** ✅ **FULLY OPERATIONAL**  
-**Total Updates:** 640+ cross-chain callbacks delivered
+**Total Updates:** 660+ cross-chain callbacks delivered
+
+---
+
+## 🎬 Demo Video
+
+[![Reactive Cross-Chain Oracle Demo](https://img.youtube.com/vi/Fz7K0ocbgEU/maxresdefault.jpg)](https://youtu.be/Fz7K0ocbgEU)
+
+**[▶️ Watch the Full Demo on YouTube](https://youtu.be/Fz7K0ocbgEU)** (4:56)
 
 ---
 

@@ -25,6 +25,7 @@
  */
 
 import { ethers } from "hardhat";
+import type { JsonRpcProvider, Wallet, Contract } from "ethers";
 // @ts-ignore - node-fetch types not installed
 import fetch from "node-fetch";
 
@@ -123,11 +124,11 @@ let lastBalanceCheck = 0;
 let isRefilling = false;
 
 // Providers and wallets (initialized in main)
-let sepoliaProvider: ethers.JsonRpcProvider;
-let reactiveProvider: ethers.JsonRpcProvider;
-let sepoliaWallet: ethers.Wallet;
-let reactiveWallet: ethers.Wallet;
-let systemContract: ethers.Contract;
+let sepoliaProvider: JsonRpcProvider;
+let reactiveProvider: JsonRpcProvider;
+let sepoliaWallet: Wallet;
+let reactiveWallet: Wallet;
+let systemContract: Contract;
 
 // ═══════════════════════════════════════════════════════════════
 // AUTO-REFILL FUNCTIONS

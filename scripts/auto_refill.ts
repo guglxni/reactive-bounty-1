@@ -17,6 +17,7 @@
  */
 
 import { ethers } from "hardhat";
+import type { JsonRpcProvider, Wallet, Contract } from "ethers";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -63,11 +64,11 @@ interface BalanceStatus {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 class AutoRefillService {
-  private sepoliaProvider: ethers.JsonRpcProvider;
-  private reactiveProvider: ethers.JsonRpcProvider;
-  private sepoliaWallet: ethers.Wallet;
-  private reactiveWallet: ethers.Wallet;
-  private systemContract: ethers.Contract;
+  private sepoliaProvider: JsonRpcProvider;
+  private reactiveProvider: JsonRpcProvider;
+  private sepoliaWallet: Wallet;
+  private reactiveWallet: Wallet;
+  private systemContract: Contract;
   private rscs: RSCInfo[];
   private isRunning: boolean = false;
   

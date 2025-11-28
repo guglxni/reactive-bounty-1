@@ -2,7 +2,7 @@
 
 ## Cross-Chain Price Oracle Telegram Bot
 
-A real-time monitoring bot for the Reactive Network Cross-Chain Price Oracle system. Monitor ETH/USD, BTC/USD, and LINK/USD prices as they're mirrored from Base Sepolia to Ethereum Sepolia.
+A real-time monitoring bot for the Reactive Network Cross-Chain Price Oracle system with **Auto-Refill Support**. Monitor ETH/USD, BTC/USD, and LINK/USD prices as they're mirrored from Base Sepolia to Ethereum Sepolia.
 
 ---
 
@@ -13,30 +13,41 @@ A real-time monitoring bot for the Reactive Network Cross-Chain Price Oracle sys
 # Ensure environment variables are set in .env
 TELEGRAM_BOT_TOKEN=your_bot_token_from_botfather
 TELEGRAM_CHAT_ID=your_chat_id
+PRIVATE_KEY=your_private_key  # Required for auto-refill
 ```
 
 ### Start the Bot
+
+**With Auto-Refill (Recommended):**
 ```bash
-cd /path/to/reactive-bounty-1
-npx hardhat run scripts/telegram_bot_3feed.ts --network sepolia
+npm run bot:autorefill
 ```
 
-### Expected Output
+**Basic Bot (No Auto-Refill):**
+```bash
+npm run bot
+```
+
+### Expected Output (Auto-Refill Version)
 ```
 ╔═══════════════════════════════════════════════════════════════╗
-║  CROSS-CHAIN ORACLE BOT - 3 FEED EDITION                      ║
+║  CROSS-CHAIN ORACLE BOT - WITH AUTO-REFILL                    ║
 ╚═══════════════════════════════════════════════════════════════╝
 
 📊 System Status:
-   Destination: 0x889c32f46E273fBd0d5B1806F3f1286010cD73B3
-   RSC: 0x70c6c95D4F75eE019Fa2c163519263a11AaC70f5
-   Total Updates: 640
-   RSC Balance: 0.000799 REACT
+   Wallet: 0xDDe9D31a31d6763612C7f535f51E5dC9f830682e
+   Wallet REACT: 54.59594516
+   Wallet SepETH: 2.355605410029114057
+   Total Updates: 700
 
-📈 Active Feeds:
-   ✅ 💎 ETH/USD (/eth)
-   ✅ 🪙 BTC/USD (/btc)
-   ✅ 🔗 LINK/USD (/link)
+📋 RSC Status:
+   ✅ Multi-Feed RSC: 4.9491386 REACT
+   ✅ V2 RSC: 4.9818204 REACT
+   ✅ Original RSC: 4.989007 REACT
+
+🔄 Auto-Refill: ENABLED
+   Check interval: 60s
+   RSC min balance: 2 REACT
 
 👀 Listening for commands... (Ctrl+C to stop)
 ```
@@ -82,6 +93,14 @@ npx hardhat run scripts/telegram_bot_3feed.ts --network sepolia
 | `/price BTC` | `/btc` | Get BTC/USD price |
 | `/price LINK` | `/link` | Get LINK/USD price |
 
+### Balance & Refill Commands (NEW!)
+
+| Command | Aliases | Description |
+|---------|---------|-------------|
+| `/balance` | `/bal` | Check wallet and RSC balances |
+| `/refill` | `/fund` | Manually trigger RSC refill |
+| `/autorefill` | `/auto` | Toggle auto-refill on/off |
+
 ### System Commands
 
 | Command | Aliases | Description |
@@ -93,6 +112,110 @@ npx hardhat run scripts/telegram_bot_3feed.ts --network sepolia
 | `/contracts` | `/c` | All deployed contract addresses |
 | `/history` | `/h` | Historical update statistics |
 | `/help` | `/start` | List all available commands |
+
+---
+
+## 🔄 Auto-Refill Feature
+
+The enhanced Telegram bot includes automatic balance monitoring and RSC refilling capabilities.
+
+### How It Works
+
+1. **Continuous Monitoring**: Checks RSC balances every 60 seconds
+2. **Auto-Convert**: When wallet REACT is low, automatically converts SepETH to REACT via the official faucet (1:100 ratio)
+3. **Auto-Fund**: When RSC balance drops below threshold, sends REACT and covers debt
+4. **Telegram Alerts**: Sends notifications when actions are taken
+
+### Configuration
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `RSC_MIN_BALANCE` | 2 REACT | Alert/refill threshold |
+| `RSC_REFILL_TARGET` | 5 REACT | Target balance after refill |
+| `WALLET_MIN_REACT` | 15 REACT | Auto-convert trigger |
+| `SEPETH_CONVERT_AMOUNT` | 0.3 SepETH | Amount to convert (= 30 REACT) |
+| `CHECK_INTERVAL` | 60 seconds | Monitoring frequency |
+
+### Sample Auto-Refill Alerts
+
+**Low Balance Alert:**
+```
+⚠️ LOW BALANCE ALERT
+
+Wallet REACT: 10.5
+Wallet SepETH: 2.3
+
+Please fund wallet manually!
+```
+
+**Auto-Convert Triggered:**
+```
+💱 Auto-Convert Triggered
+
+Converted 0.3 SepETH to REACT
+TX: 0x41467bf1d9fee76b7...
+
+⏳ Waiting for REACT to arrive...
+```
+
+**Auto-Refill Complete:**
+```
+🔧 Auto-Refill: Multi-Feed RSC
+
+Fund TX: 0x9b2d52ea0ee0d55a...
+Cover TX: 0x79412e86861...
+
+✅ RSC is now active!
+```
+
+### `/balance` - Balance Report
+```
+💰 Balance Report
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+👛 Wallet:
+   SepETH: 2.3556
+   REACT: 54.5959
+
+📋 RSC Contracts:
+
+🟢 Multi-Feed RSC
+   Balance: 4.9491 REACT
+   Status: ACTIVE
+
+🟢 V2 RSC
+   Balance: 4.9818 REACT
+   Status: ACTIVE
+
+🟢 Original RSC
+   Balance: 4.9890 REACT
+   Status: ACTIVE
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+🔄 Auto-Refill: ✅ ON
+⚙️ Min Balance: 2 REACT
+```
+
+### `/refill` - Manual Refill
+```
+🔧 Manual Refill Complete
+
+✅ Multi-Feed RSC
+   Fund: 0x9b2d52ea0ee0...
+   Cover: 0x79412e868614...
+
+✅ Refilled 1 RSC(s)
+```
+
+### `/autorefill` - Toggle Auto-Refill
+```
+🔄 Auto-Refill Enabled
+
+Auto-refill is now ✅ ON
+
+RSCs will be automatically funded when
+balance drops below 2 REACT.
+```
 
 ---
 
@@ -348,8 +471,29 @@ Chainlink LINK/USD Aggregator:
 |----------|----------|-------------|
 | `TELEGRAM_BOT_TOKEN` | ✅ | Bot token from @BotFather |
 | `TELEGRAM_CHAT_ID` | ✅ | Your Telegram chat ID |
+| `PRIVATE_KEY` | ✅ (for auto-refill) | Wallet private key for transactions |
 | `SEPOLIA_RPC_URL` | Optional | Sepolia RPC (has fallback) |
+| `REACTIVE_RPC_URL` | Optional | Reactive RPC (has fallback) |
 | `BASE_SEPOLIA_RPC_URL` | Optional | Base Sepolia RPC (has fallback) |
+
+### NPM Scripts
+
+```bash
+# With auto-refill (recommended for production)
+npm run bot:autorefill
+
+# Basic bot (no auto-refill)
+npm run bot
+
+# Check all balances
+npm run check:balance
+
+# Manual fund all RSCs
+npm run fund:rscs
+
+# Standalone auto-refill service (no Telegram)
+npm run auto:refill
+```
 
 ### Getting Bot Token
 1. Open Telegram and search for `@BotFather`

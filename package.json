@@ -3,7 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "check:balance": "hardhat run scripts/check_all_balances.ts --network sepolia",
+    "fund:rscs": "hardhat run scripts/fund_all_rscs.ts --network reactive",
+    "auto:refill": "hardhat run scripts/auto_refill.ts --network reactive",
+    "bot": "hardhat run scripts/telegram_bot_3feed.ts --network sepolia",
+    "bot:autorefill": "hardhat run scripts/telegram_bot_autorefill.ts --network sepolia",
+    "deploy:multi": "hardhat run scripts/deploy_multi_feed_v2.ts",
+    "check:multi": "hardhat run scripts/check_multi_feed_status.ts --network sepolia"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",

@@ -38,7 +38,7 @@ A production-grade, autonomous cross-chain oracle that mirrors **multiple Chainl
 
 ## 🤖 Telegram Bot (Live Monitoring)
 
-Monitor the oracle in real-time via Telegram bot. **[📖 Full Documentation](docs/TELEGRAM_BOT.md)**
+Monitor the oracle in real-time via Telegram bot with **Auto-Refill Support**. **[📖 Full Documentation](docs/TELEGRAM_BOT.md)**
 
 ### Quick Start
 ```bash
@@ -46,8 +46,11 @@ Monitor the oracle in real-time via Telegram bot. **[📖 Full Documentation](do
 export TELEGRAM_BOT_TOKEN=your_token_from_botfather
 export TELEGRAM_CHAT_ID=your_chat_id
 
-# Start the bot
-npx hardhat run scripts/telegram_bot_3feed.ts --network sepolia
+# Start the bot (with auto-refill)
+npm run bot:autorefill
+
+# Or start the basic bot (without auto-refill)
+npm run bot
 ```
 
 ### Available Commands
@@ -58,6 +61,9 @@ npx hardhat run scripts/telegram_bot_3feed.ts --network sepolia
 | `/btc` | BTC/USD price + stats | Price, round ID, update count, age |
 | `/link` | LINK/USD price + stats | Price, round ID, update count, age |
 | `/status` | Full system status | Networks, balances, all feed stats |
+| `/balance` | Check wallet & RSC balances | SepETH, REACT, RSC status |
+| `/refill` | Manual RSC refill | Fund RSCs and cover debt |
+| `/autorefill` | Toggle auto-refill on/off | Enable/disable automatic funding |
 | `/txs` | Recent transaction hashes | Origin, Reactive, Destination tx links |
 | `/workflow` | Cross-chain flow diagram | Step-by-step with contract addresses |
 | `/contracts` | All deployed addresses | RSC, Destination, Aggregators |
@@ -241,7 +247,7 @@ cp example.env .env
 ### Run Tests
 ```bash
 npm test
-# Expected: 149 tests passing
+# Expected: 199 tests passing
 ```
 
 ### Deploy Multi-Feed System
@@ -253,14 +259,34 @@ npx hardhat run scripts/deploy_multi_feed_v2.ts --network sepolia
 npx hardhat run scripts/redeploy_3_feeds.ts --network reactive
 ```
 
-### Check Status
+### NPM Scripts (Recommended)
 ```bash
-npx hardhat run scripts/multi_feed_status.ts --network sepolia
+# Check all balances (wallet + RSCs)
+npm run check:balance
+
+# Fund all RSCs and cover debt
+npm run fund:rscs
+
+# Start auto-refill service (standalone)
+npm run auto:refill
+
+# Start Telegram bot with auto-refill
+npm run bot:autorefill
+
+# Start basic Telegram bot
+npm run bot
+
+# Check multi-feed status
+npm run check:multi
 ```
 
 ### Start Telegram Bot
 ```bash
-npx ts-node scripts/telegram_bot_3feed.ts
+# With auto-refill (recommended)
+npm run bot:autorefill
+
+# Or without auto-refill
+npm run bot
 ```
 
 ---
@@ -279,7 +305,11 @@ contracts/
 └── mocks/                         # Mock contracts for testing
 
 scripts/
-├── telegram_bot_3feed.ts          # Telegram monitoring bot
+├── telegram_bot_autorefill.ts     # Telegram bot with auto-refill (recommended)
+├── telegram_bot_3feed.ts          # Telegram monitoring bot (basic)
+├── auto_refill.ts                 # Standalone auto-refill service
+├── check_all_balances.ts          # Check wallet + RSC balances
+├── fund_all_rscs.ts               # Fund RSCs and cover debt
 ├── deploy_multi_feed_v2.ts        # Multi-feed deployment
 ├── redeploy_3_feeds.ts            # 3-feed RSC deployment
 ├── multi_feed_status.ts           # Status checker

@@ -344,6 +344,42 @@ docs/
 
 ---
 
+## ⚡ Trigger Modes (Event-Based + Cron)
+
+The bounty specification allows triggering cross-chain updates via:
+> "...either by subscribing to the aggregator's on-chain events (NewRound, AnswerUpdated) **or** by polling latestRoundData() at regular intervals using Cron events."
+
+**We implement BOTH approaches:**
+
+| Contract | Mode | Description | Status |
+|----------|------|-------------|--------|
+| `MultiFeedMirrorRCv2.sol` | **Event-based** | Subscribes to `AnswerUpdated` events for instant real-time updates | ✅ **Production** (700+ updates) |
+| `ChainlinkFeedMirrorCronRC.sol` | **Dual-mode** | Event subscription + Cron100 heartbeat backup (~12 min intervals) | ✅ Tested & Ready |
+
+### Why Event-Based is Primary
+
+| Aspect | Event-Based | Cron-Based |
+|--------|-------------|------------|
+| **Latency** | Instant on price change | Fixed intervals |
+| **Gas Efficiency** | Only triggers when needed | Triggers even if no change |
+| **Data Freshness** | Always latest | Could be stale between polls |
+
+### Cron Dual-Mode Contract
+
+The `ChainlinkFeedMirrorCronRC.sol` provides maximum reliability by combining both approaches:
+
+```solidity
+// Primary: Real-time event subscription
+service.subscribe(originChainId, originFeed, ANSWER_UPDATED_TOPIC_0);
+
+// Backup: Cron100 heartbeat every ~100 blocks (~12 minutes)
+service.subscribe(REACTIVE_CHAIN_ID, CRON_ADDRESS, CRON_TOPIC);
+```
+
+This ensures updates even if events are missed, making it suitable for critical DeFi applications.
+
+---
+
 ## ✨ Bounty Requirements Checklist
 
 | Requirement | Status | Evidence |
@@ -360,6 +396,7 @@ docs/
 | Feed identifier in payload | ✅ | `originFeed` address included |
 | Decimals in payload | ✅ | `decimals` (uint8) included |
 | Domain separator/version | ✅ | EIP-712 style implementation |
+| **Trigger mode (events OR cron)** | ✅ | **Both implemented!** Event-based (production) + Cron dual-mode (alternative) |
 
 ---
 

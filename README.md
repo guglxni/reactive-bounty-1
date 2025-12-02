@@ -325,6 +325,7 @@ test/
 docs/
 ├── design.md                      # Architecture documentation
 ├── security-architecture.md       # Security analysis
+├── REACTIVATE.md                  # Auto-funding & recovery (Reactivate)
 ├── TELEGRAM_BOT.md                # Telegram bot documentation
 ├── INTERACTIVE_TERMINAL.md        # Interactive terminal documentation
 └── ...                            # Additional documentation

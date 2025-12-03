@@ -246,7 +246,7 @@ All deployed contracts with explorer links
 
 ⚡ Reactive (Lasna)
    RSC (3-Feed Mirror):
-   0x70c6c95D4F75eE019Fa2c163519263a11AaC70f5
+   0x692C332E692A3fD3eFE04a7f6502854e1f6A1bcB
 
 🟢 Destination (Sepolia)
    MultiFeedDestinationV2:

@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function main() {
-  const OLD_RSC = '0x70c6c95D4F75eE019Fa2c163519263a11AaC70f5';
+  const OLD_RSC = '0x692C332E692A3fD3eFE04a7f6502854e1f6A1bcB';
   
   const provider = new ethers.JsonRpcProvider('https://lasna-rpc.rnk.dev/');
   

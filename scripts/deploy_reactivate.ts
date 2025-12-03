@@ -38,7 +38,7 @@ const CONFIG = {
 // Our deployed contracts
 const DEPLOYED = {
     // Multi-feed RSC
-    MULTI_FEED_RSC: "0x70c6c95D4F75eE019Fa2c163519263a11AaC70f5",
+    MULTI_FEED_RSC: "0x692C332E692A3fD3eFE04a7f6502854e1f6A1bcB",
     // Destination proxy
     DESTINATION: "0x889c32f46E273fBd0d5B1806F3f1286010cD73B3",
 };

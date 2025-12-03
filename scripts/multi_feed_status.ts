@@ -18,7 +18,7 @@ const ADDRESSES = {
     callbackProxy: "0xc9f36411C9897e7F959D99ffca2a0Ba7ee0D7bDA",
     
     // RSC (Reactive Lasna) - Updated to 3-feed version
-    rsc: "0x70c6c95D4F75eE019Fa2c163519263a11AaC70f5",  // NEW: 3 feeds (ETH, BTC, LINK)
+    rsc: "0x692C332E692A3fD3eFE04a7f6502854e1f6A1bcB",  // NEW: 3 feeds (ETH, BTC, LINK)
     oldRsc: "0x692C332E692A3fD3eFE04a7f6502854e1f6A1bcB", // OLD: 4 feeds (included USDC)
     
     // Expected RVM ID (deployer)

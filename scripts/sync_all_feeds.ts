@@ -10,7 +10,7 @@ async function main() {
   const sepoliaProvider = new ethers.JsonRpcProvider('https://rpc.ankr.com/eth_sepolia');
   const wallet = new ethers.Wallet(pk, reactiveProvider);
   
-  const RSC = '0x70c6c95D4F75eE019Fa2c163519263a11AaC70f5';
+  const RSC = '0x692C332E692A3fD3eFE04a7f6502854e1f6A1bcB';
   const DEST = '0x889c32f46E273fBd0d5B1806F3f1286010cD73B3';
   
   const rscAbi = ['function forceUpdate(address feedAddr, uint256 roundId, int256 answer, uint256 updatedAt) external payable'];

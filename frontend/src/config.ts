@@ -27,7 +27,7 @@ export const CONFIG = {
   // Contract Addresses
   contracts: {
     destination: '0x889c32f46E273fBd0d5B1806F3f1286010cD73B3',
-    rsc: '0x70c6c95D4F75eE019Fa2c163519263a11AaC70f5',
+    rsc: '0x692C332E692A3fD3eFE04a7f6502854e1f6A1bcB',
     callbackProxy: '0xc9f36411C9897e7F959D99ffca2a0Ba7ee0D7bDA',
   },
   

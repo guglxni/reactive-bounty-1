@@ -356,17 +356,27 @@ docs/
 
 ---
 
-## 🔋 Reactivate: On-Chain Auto-Funding
+## 🔋 Reactivate: On-Chain Auto-Funding (Deployed on Lasna)
 
 A comprehensive on-chain solution for automated balance management and debt coverage. **[📖 Full Documentation](docs/REACTIVATE.md)**
+
+### Deployed Addresses (Lasna - Chain 5318007)
+
+| Contract | Address | Description |
+|----------|---------|-------------|
+| **DevAccount** | [`0x9178BB83aF9cDe4776aC11215EAa099511bBd242`](https://lasna.reactscan.net/address/0x9178BB83aF9cDe4776aC11215EAa099511bBd242) | Holds 20 REACT for auto-refills |
+| **Multi-Feed Funder** | [`0x1cE8A544d14e02877623e9D5D2E3515CF07FC819`](https://lasna.reactscan.net/address/0x1cE8A544d14e02877623e9D5D2E3515CF07FC819) | Monitors & refills Multi-Feed RSC |
+| **V2 Funder** | [`0x2bD4eFc52190c394AD1172C415942d9ab7b95110`](https://lasna.reactscan.net/address/0x2bD4eFc52190c394AD1172C415942d9ab7b95110) | Monitors & refills V2 RSC |
+| **Original Funder** | [`0x28aef09D2B54BB53528F9a6427805fabb263112B`](https://lasna.reactscan.net/address/0x28aef09D2B54BB53528F9a6427805fabb263112B) | Monitors & refills Original RSC |
 
 ### Components
 
 | Contract | Description |
 |----------|-------------|
 | `DevAccount.sol` | Developer funding account with whitelisted withdrawals |
+| `SimpleFunder.sol` | Auto-refill & debt coverage for RSCs |
 | `DevAccountFactory.sol` | Factory for creating DevAccounts |
-| `Funder.sol` | Auto-refill & debt coverage contract |
+| `Funder.sol` | Enhanced auto-refill contract |
 | `FunderFactory.sol` | Factory for deploying Funders |
 | `ReactivateFunderRC.sol` | Reactive contract to trigger Funder callbacks |
 
@@ -374,33 +384,37 @@ A comprehensive on-chain solution for automated balance management and debt cove
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│  1. Developer creates DevAccount with initial funding                        │
-│     └── DevAccountFactory.createDevAccount{value: 10 ether}()               │
+│  1. Developer creates DevAccount with initial funding (20 REACT)            │
+│     └── DevAccount: 0x9178BB83aF9cDe4776aC11215EAa099511bBd242              │
 │                                                                              │
-│  2. Developer creates Funder via factory                                     │
-│     └── FunderFactory.createFunder(destination, rsc, 0.5 ether, 0.1 ether)  │
+│  2. Developer deploys SimpleFunders for each RSC                            │
+│     └── Multi-Feed: 0x1cE8A544d14e02877623e9D5D2E3515CF07FC819              │
+│     └── V2 RSC:     0x2bD4eFc52190c394AD1172C415942d9ab7b95110              │
+│     └── Original:   0x28aef09D2B54BB53528F9a6427805fabb263112B              │
 │                                                                              │
-│  3. Developer whitelists Funder on DevAccount                               │
-│     └── DevAccount.whitelist(funderAddress)                                  │
+│  3. Developer whitelists Funders on DevAccount                              │
+│     └── All Funders can withdraw from DevAccount to refill RSCs             │
 │                                                                              │
-│  4. Deploy ReactivateFunderRC on Lasna to monitor events                    │
-│     └── Triggers Funder.callback() on price updates                          │
+│  4. SimpleFunders can be called manually or via ReactivateFunderRC          │
+│     └── funder.checkAndFund() - checks RSC balance and debt                 │
 │                                                                              │
 │  5. Funder automatically:                                                    │
 │     ├── Checks contract debts → covers via coverDebt()                       │
-│     └── Checks balances → refills from DevAccount when low                   │
+│     └── Checks balances → refills from DevAccount when below 1 REACT        │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Quick Start
 
 ```bash
-# Deploy on Sepolia (DevAccountFactory, FunderFactory, Funder)
-npx hardhat run scripts/deploy_reactivate.ts --network sepolia
+# Deploy on Lasna (DevAccount + SimpleFunders)
+npx hardhat run scripts/deploy_reactivate_lasna.ts --network reactive
 
-# Deploy on Lasna (ReactivateFunderRC) - set FUNDER_ADDRESS first
-export FUNDER_ADDRESS=0x...
-npx hardhat run scripts/deploy_reactivate.ts --network lasna
+# Check system status
+npx hardhat run scripts/check_reactivate_status.ts --network reactive
+
+# Manually trigger refill for an RSC
+# await funder.checkAndFund()
 ```
 
 ### Test Coverage
@@ -452,7 +466,7 @@ This ensures updates even if events are missed, making it suitable for critical 
 
 | Requirement | Status | Evidence |
 |-------------|--------|----------|
-| Deployed on Reactive testnet | ✅ | RSC: `0x70c6c95D...` |
+| Deployed on Reactive testnet | ✅ | RSC: `0x692C332E...` |
 | Reactive Contracts included | ✅ | `MultiFeedMirrorRCv2.sol` |
 | Destination contracts included | ✅ | `MultiFeedDestinationV2.sol` |
 | Deploy scripts and instructions | ✅ | `scripts/deploy_*.ts` |

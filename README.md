@@ -303,12 +303,21 @@ contracts/
 ├── DestinationFeedProxy.sol       # Single-feed destination
 ├── interfaces/                    # Contract interfaces
 ├── lib/                           # Reactive Network libraries
-└── mocks/                         # Mock contracts for testing
+├── mocks/                         # Mock contracts for testing
+└── reactivate/                    # Auto-funding system
+    ├── DevAccount.sol             # Developer funding account
+    ├── DevAccountFactory.sol      # DevAccount factory
+    ├── Funder.sol                 # Auto-refill & debt coverage
+    ├── FunderFactory.sol          # Funder factory
+    ├── ReactivateFunderRC.sol     # Reactive trigger contract
+    ├── interfaces/                # Reactivate interfaces
+    └── mocks/                     # Mock contracts
 
 scripts/
 ├── telegram_bot_autorefill.ts     # Telegram bot with auto-refill (recommended)
 ├── telegram_bot_3feed.ts          # Telegram monitoring bot (basic)
 ├── auto_refill.ts                 # Standalone auto-refill service
+├── deploy_reactivate.ts           # Reactivate system deployment
 ├── check_all_balances.ts          # Check wallet + RSC balances
 ├── fund_all_rscs.ts               # Fund RSCs and cover debt
 ├── deploy_multi_feed_v2.ts        # Multi-feed deployment
@@ -319,6 +328,7 @@ scripts/
 test/
 ├── MultiFeedDestinationV2.test.ts # Multi-feed tests
 ├── MultiFeedMirrorRCv2.test.ts    # Multi-feed RSC tests
+├── Reactivate.test.ts             # Auto-funding tests (18 tests)
 ├── DestinationFeedProxy.test.ts   # Single-feed tests
 └── ...                            # Additional tests
 
@@ -343,6 +353,62 @@ docs/
 6. **Monotonicity Enforcement** - Prevents price regression attacks
 7. **Stale Price Detection** - 3-hour freshness threshold
 8. **Per-Feed Deduplication** - Prevents duplicate round processing
+
+---
+
+## 🔋 Reactivate: On-Chain Auto-Funding
+
+A comprehensive on-chain solution for automated balance management and debt coverage. **[📖 Full Documentation](docs/REACTIVATE.md)**
+
+### Components
+
+| Contract | Description |
+|----------|-------------|
+| `DevAccount.sol` | Developer funding account with whitelisted withdrawals |
+| `DevAccountFactory.sol` | Factory for creating DevAccounts |
+| `Funder.sol` | Auto-refill & debt coverage contract |
+| `FunderFactory.sol` | Factory for deploying Funders |
+| `ReactivateFunderRC.sol` | Reactive contract to trigger Funder callbacks |
+
+### How It Works
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  1. Developer creates DevAccount with initial funding                        │
+│     └── DevAccountFactory.createDevAccount{value: 10 ether}()               │
+│                                                                              │
+│  2. Developer creates Funder via factory                                     │
+│     └── FunderFactory.createFunder(destination, rsc, 0.5 ether, 0.1 ether)  │
+│                                                                              │
+│  3. Developer whitelists Funder on DevAccount                               │
+│     └── DevAccount.whitelist(funderAddress)                                  │
+│                                                                              │
+│  4. Deploy ReactivateFunderRC on Lasna to monitor events                    │
+│     └── Triggers Funder.callback() on price updates                          │
+│                                                                              │
+│  5. Funder automatically:                                                    │
+│     ├── Checks contract debts → covers via coverDebt()                       │
+│     └── Checks balances → refills from DevAccount when low                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Quick Start
+
+```bash
+# Deploy on Sepolia (DevAccountFactory, FunderFactory, Funder)
+npx hardhat run scripts/deploy_reactivate.ts --network sepolia
+
+# Deploy on Lasna (ReactivateFunderRC) - set FUNDER_ADDRESS first
+export FUNDER_ADDRESS=0x...
+npx hardhat run scripts/deploy_reactivate.ts --network lasna
+```
+
+### Test Coverage
+
+```bash
+npx hardhat test test/Reactivate.test.ts
+# 18 tests passing (DevAccount, DevAccountFactory, Funder, FunderFactory, Integration)
+```
 
 ---
 
@@ -405,11 +471,12 @@ This ensures updates even if events are missed, making it suitable for critical 
 ## 📊 Test Results
 
 ```
-199 passing (2.1s)
+217 passing (2.1s)
 
 Test Suites:
   ✓ MultiFeedDestinationV2 (20 tests) - multi-feed destination
   ✓ MultiFeedMirrorRCv2 (1 test) - multi-feed RSC
+  ✓ Reactivate (18 tests) - auto-funding system
   ✓ DestinationFeedProxy (comprehensive) - single-feed destination
   ✓ DestinationFeedProxyV2 (comprehensive) - enhanced destination
   ✓ ChainlinkFeedMirrorRC (comprehensive) - single-feed RSC
